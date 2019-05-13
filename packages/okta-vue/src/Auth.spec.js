@@ -195,7 +195,7 @@ describe('Auth component', () => {
     baseConfig = {
       issuer: 'https://foo',
       clientId: 'foo',
-      redirectUri: 'foo'
+      redirectUri: 'https://foo'
     }
     mockAuthJsInstance = {
       userAgent: 'foo',
@@ -235,7 +235,7 @@ describe('Auth component', () => {
     const legacyConfig = {
       issuer: 'https://foo',
       client_id: 'foo',
-      redirect_uri: 'foo',
+      redirect_uri: 'https://foo',
       scope: 'foo bar',
       response_type: 'token foo'
     }
@@ -285,7 +285,7 @@ describe('Auth component', () => {
     localVue.use(Auth, {
       issuer: 'https://foo',
       client_id: 'foo',
-      redirect_uri: 'foo',
+      redirect_uri: 'https://foo',
       scope: 'foo bar',
       response_type: 'token'
     })
@@ -298,7 +298,7 @@ describe('Auth component', () => {
     localVue.use(Auth, {
       issuer: 'https://foo',
       client_id: 'foo',
-      redirect_uri: 'foo',
+      redirect_uri: 'https://foo',
       scope: 'foo bar',
       response_type: 'token'
     })
