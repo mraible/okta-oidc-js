@@ -376,6 +376,10 @@ auth.redirect({
 
 Parses tokens from the url and stores them.
 
+#### `auth.getTokenManager()`
+
+Returns the internal [TokenManager](https://github.com/okta/okta-auth-js#tokenmanager).
+
 ## Development
 
 See the [getting started](/README.md#getting-started) section for step-by-step instructions.

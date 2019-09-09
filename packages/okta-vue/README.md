@@ -258,6 +258,10 @@ Returns the result of the OpenID Connect `/userinfo` endpoint if an access token
 
 Parses the tokens returned as hash fragments in the OAuth 2.0 Redirect URI.
 
+#### `$auth.getTokenManager`
+
+Returns the internal [TokenManager](https://github.com/okta/okta-auth-js#tokenmanager).
+
 ## Development
 
 See the [getting started](/README.md#getting-started) section for step-by-step instructions.

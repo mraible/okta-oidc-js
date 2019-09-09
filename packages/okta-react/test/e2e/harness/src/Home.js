@@ -19,12 +19,14 @@ export default withAuth(class Home extends Component {
     super(props);
 
     this.state = {
-      authenticated: null
+      authenticated: null,
+      renewMessage: '',
     };
 
     this.checkAuthentication = this.checkAuthentication.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+    this.renewToken = this.renewToken.bind(this);
   }
 
   async checkAuthentication() {
@@ -40,6 +42,21 @@ export default withAuth(class Home extends Component {
 
   async logout() {
     this.props.auth.logout('/');
+  }
+
+  renewToken() {
+    const tokenManager = this.props.auth.getTokenManager();
+    tokenManager.renew('idToken')
+      .then(() => {
+        this.setState({
+          renewMessage: 'Token was renewed',
+        });
+      })
+      .catch(e => {
+        this.setState({
+          renewMessage: `Error: ${e}`,
+        });
+      });
   }
 
   componentDidMount() {
@@ -69,7 +86,10 @@ export default withAuth(class Home extends Component {
         <Link to='/protected'>Protected</Link><br/>
         <Link to='/sessionToken-login'>Session Token Login</Link><br/>
         {button}
-
+        { this.state.authenticated ? <button id="renew-token-button" onClick={this.renewToken}>Renew Token</button> : null }
+        <div id="renew-message">
+          { this.state.renewMessage }
+        </div>
       </div>
     );
   }

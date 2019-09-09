@@ -62,6 +62,10 @@ export class OktaAuthService {
       this.$authenticationState = new Observable((observer: Observer<boolean>) => {this.observers.push(observer)})
     }
 
+    getTokenManager(): object {
+      return this.oktaAuth.tokenManager;
+    }
+
     /**
      * Checks if there is an access token and id token
      */

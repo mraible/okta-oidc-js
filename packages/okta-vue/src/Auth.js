@@ -85,6 +85,9 @@ function install (Vue, options) {
           next()
         }
       }
+    },
+    getTokenManager () {
+      return oktaAuth.tokenManager
     }
   }
 }

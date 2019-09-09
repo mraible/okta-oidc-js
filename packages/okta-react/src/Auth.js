@@ -48,6 +48,10 @@ export default class Auth {
     this.redirect = this.redirect.bind(this);
   }
 
+  getTokenManager() {
+    return this._oktaAuth.tokenManager;
+  }
+
   async handleAuthentication() {
     let tokens = await this._oktaAuth.token.parseFromUrl();
     tokens = Array.isArray(tokens) ? tokens : [tokens];
