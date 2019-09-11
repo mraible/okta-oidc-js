@@ -195,6 +195,10 @@ For PKCE flow, this should be left undefined or set to `['code']`.
     1. `auth.login` is called
     2. SecureRoute is accessed without authentication
 
+- **onTokenError** *(optional)* - callback function. If there is an error while renewing a token, the error will be passed to a handler function. The default handler will call `login()` to initiate a redirect flow. Passing a function here will override the default handler.
+
+- **isAuthenticated** *(optional)* - callback function. By default, `isAuthenticated()` will return true if both `getIdToken()` and `getAccessToken()` return a value. Passing a function here will skip this logic in favor of the logic you have defined. The function should return a Promise.
+
 #### Example
 
 ```jsx
