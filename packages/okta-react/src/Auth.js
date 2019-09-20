@@ -83,8 +83,8 @@ export default class Auth {
     // If there could be tokens in the url
     if (location && location.hash && containsAuthTokens.test(location.hash)) return null;
 
-    // Expect both idToken and accessToken to exist
-    return !!(await this.getAccessToken()) && !!(await this.getIdToken());
+    // Return true if either the access or id token exist in client storage
+    return !!(await this.getAccessToken()) || !!(await this.getIdToken());
   }
 
   async getUser() {
