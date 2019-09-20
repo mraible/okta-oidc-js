@@ -419,60 +419,54 @@ describe('Auth component', () => {
         clientId: 'foo',
         redirectUri: 'https://foo/redirect',
       });
-      jest.spyOn(auth, 'getAccessToken');
-      jest.spyOn(auth, 'getIdToken');
+      jest.spyOn(auth, 'getAccessToken').mockReturnValue(Promise.resolve(standardAccessTokenParsed));
+      jest.spyOn(auth, 'getIdToken').mockReturnValue(Promise.resolve(standardIdTokenParsed));
+
+      const ret = await auth.isAuthenticated();
+      expect(ret).toBe(true);
+    });
+  
+    it('Will be true if accessToken is present', async () => {
+      const auth = new Auth({
+        issuer: 'https://foo/oauth2/default',
+        clientId: 'foo',
+        redirectUri: 'https://foo/redirect',
+      });
+      jest.spyOn(auth, 'getAccessToken').mockReturnValue(Promise.resolve(standardAccessTokenParsed));
+      jest.spyOn(auth, 'getIdToken').mockReturnValue(Promise.resolve(null));
 
       const ret = await auth.isAuthenticated();
       expect(ret).toBe(true);
 
       expect(auth.getAccessToken).toHaveBeenCalled();
-      expect(auth.getIdToken).toHaveBeenCalled();
     });
 
-    it('Will be false if idToken is not present', async () => {
+    it('Will be true if idToken is present', async () => {
       const auth = new Auth({
         issuer: 'https://foo/oauth2/default',
         clientId: 'foo',
         redirectUri: 'https://foo/redirect',
       });
-      jest.spyOn(auth, 'getAccessToken');
-      jest.spyOn(auth, 'getIdToken');
-      jest.spyOn(mockAuthJsInstance.tokenManager, 'get').mockImplementation(tokenName => {
-        if (tokenName === 'idToken') {
-          return Promise.resolve(null);
-        } else if (tokenName === 'accessToken') {
-          return Promise.resolve(standardAccessTokenParsed);
-        } else {
-          throw new Error('Unknown token name: ' + tokenName);
-        }
-      });
-      const ret = await auth.isAuthenticated();
-      expect(ret).toBe(false);
+      jest.spyOn(auth, 'getAccessToken').mockReturnValue(Promise.resolve(null));
+      jest.spyOn(auth, 'getIdToken').mockReturnValue(Promise.resolve(standardIdTokenParsed));
 
-      expect(auth.getAccessToken).toHaveBeenCalled();
+      const ret = await auth.isAuthenticated();
+      expect(ret).toBe(true);
+
       expect(auth.getIdToken).toHaveBeenCalled();
     });
-
-    it('Will be false if accessToken is not present', async () => {
+    
+    it('Will be false if neither idToken nor accessToken are present', async () => {
       const auth = new Auth({
         issuer: 'https://foo/oauth2/default',
         clientId: 'foo',
         redirectUri: 'https://foo/redirect',
       });
-      jest.spyOn(auth, 'getAccessToken');
-      jest.spyOn(mockAuthJsInstance.tokenManager, 'get').mockImplementation(tokenName => {
-        if (tokenName === 'idToken') {
-          return Promise.resolve(standardIdTokenParsed);
-        } else if (tokenName === 'accessToken') {
-          return Promise.resolve(null);
-        } else {
-          throw new Error('Unknown token name: ' + tokenName);
-        }
-      });
+      jest.spyOn(auth, 'getAccessToken').mockReturnValue(Promise.resolve(null));
+      jest.spyOn(auth, 'getIdToken').mockReturnValue(Promise.resolve(null));
+
       const ret = await auth.isAuthenticated();
       expect(ret).toBe(false);
-
-      expect(auth.getAccessToken).toHaveBeenCalled();
     });
 
     it('Will return null if there is idToken in the URL', async () => {
@@ -526,7 +520,7 @@ describe('Auth component', () => {
       expect(auth.getIdToken).not.toHaveBeenCalled();
     });
 
-    it('Will call a custom function if "config.isAuthenticated"', async () => {
+    it('Will call a custom function if "config.isAuthenticated" was set', async () => {
       const isAuthenticated = jest.fn().mockReturnValue(Promise.resolve('foo'));
       const auth = new Auth({
         issuer: 'https://foo/oauth2/default',
