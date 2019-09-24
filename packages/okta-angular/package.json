@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build:package-info": "node ../../util/write-package-info.js . src/okta/packageInfo.ts",
-    "lint": "yarn --cwd test/e2e/harness/ lint",
+    "lint": "ng lint && yarn --cwd test/e2e/harness/ lint",
     "ngc": "./node_modules/.bin/ngc -p tsconfig.json",
     "prepare": "yarn ngc",
     "prengc": "yarn build:package-info",
@@ -34,6 +34,7 @@
     "@okta/okta-auth-js": "^2.6.3"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.8.1",
     "@angular/common": "^7.0.0",
     "@angular/compiler": "^7.0.0",
     "@angular/compiler-cli": "^7.0.0",
@@ -48,6 +49,7 @@
     "core-js": "^2.4.1",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.14",
+    "tslint": "~5.5.0",
     "typescript": "~3.1.6"
   },
   "peerDependencies": {},

@@ -59,15 +59,15 @@ export class OktaAuthService {
 
       this.oktaAuth = new OktaAuth(this.config);
       this.oktaAuth.userAgent = `${packageInfo.name}/${packageInfo.version} ${this.oktaAuth.userAgent}`;
-      this.$authenticationState = new Observable((observer: Observer<boolean>) => {this.observers.push(observer)})
+      this.$authenticationState = new Observable((observer: Observer<boolean>) => { this.observers.push(observer); });
     }
 
     /**
      * Checks if there is an access token and id token
      */
     async isAuthenticated(): Promise<boolean> {
-      const accessToken = await this.getAccessToken()
-      const idToken = await this.getIdToken()
+      const accessToken = await this.getAccessToken();
+      const idToken = await this.getIdToken();
       return !!(accessToken || idToken);
     }
 
@@ -178,7 +178,7 @@ export class OktaAuthService {
       return {
         uri: path.uri,
         extras: navigationExtras
-      }
+      };
     }
 
     /**
@@ -194,8 +194,8 @@ export class OktaAuthService {
           this.oktaAuth.tokenManager.add('accessToken', token);
         }
       });
-      if(await this.isAuthenticated()) {
-        this.emitAuthenticationState(true)
+      if (await this.isAuthenticated()) {
+        this.emitAuthenticationState(true);
       }
       /**
        * Navigate back to the initial view or root of application.
@@ -212,7 +212,7 @@ export class OktaAuthService {
     async logout(uri?: string): Promise<void> {
       this.oktaAuth.tokenManager.clear();
       await this.oktaAuth.signOut();
-      this.emitAuthenticationState(false)
+      this.emitAuthenticationState(false);
       this.router.navigate([uri || '/']);
     }
 
